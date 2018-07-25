@@ -3,8 +3,8 @@ const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const passport = require('passport');
 
+const middleware = require('../../middleware');
 const User = require("../../models/User");
 const key = require("../../config/keys").secretOrKey;
 const validateSignupInput = require('../../validation/signup');
@@ -114,7 +114,7 @@ router.post("/login", (req, res) => {
 //Passport.authenticate() receives strategy: e.g. jwt (passport-jwt), local (passport-local)...
 router.get(
   "/currentuser",
-  passport.authenticate("jwt", { session: false }),
+  middleware.isLoggedIn, //passport.authenticate() returns new property req.user
   (req, res) => {
     const { _id, name, email } = req.user;
     const userInfo = { _id, name, email };
