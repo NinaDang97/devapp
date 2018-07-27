@@ -10,9 +10,7 @@ const ProfileSchema = new mongoose.Schema({
         required: true,
         max: 40
     },
-    company: {
-        type: String
-    },
+    company: String,
     website: String,
     location: String,
     status: { //select career option
