@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 
 const middlware = require('../../middleware');
 const Profile = require('../../models/Profile');

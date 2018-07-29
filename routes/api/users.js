@@ -5,8 +5,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const middleware = require('../../middleware');
-const User = require('../../models/User');
 const key = require('../../config/keys').secretOrKey;
+
+const User = require('../../models/User');
+
 const validateSignupInput = require('../../validation/signup');
 const validateLoginInput = require('../../validation/login');
 
@@ -121,11 +123,5 @@ router.get(
     res.json(userInfo);
   }
 );
-
-// router.get("/", (req, res) => {
-//   res.json({
-//     msg: "Users works"
-//   });
-// });
 
 module.exports = router;
