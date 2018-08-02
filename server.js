@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const cors = require('cors');
 
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
@@ -14,6 +15,9 @@ const db = require('./config/keys.js').mongoURI;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//cors config
+app.use(cors());
+
 //connect mlab
 mongoose
   .connect(
@@ -21,7 +25,7 @@ mongoose
     { useNewUrlParser: true }
   )
   .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log('Errors in connect mongo, ', err));
+  .catch(err => console.log('Errors in connect mongo, ', err));
 
 //Passport Middleware Initialize
 app.use(passport.initialize());
