@@ -6,7 +6,9 @@ const validateLoginInput = data => {
   const errors = {};
   const { email, password } = data;
 
-  if (!validator.isEmail(email)) {
+  if (_.isEmpty(email)) {
+    errors.email = 'Email address is required';
+  } else if (!validator.isEmail(email)) {
     errors.email = 'Email address is not valid';
   }
   if (_.isEmpty(password)) {

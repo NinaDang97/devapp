@@ -1,12 +1,17 @@
 import React from 'react';
-import { Message } from 'semantic-ui-react';
+import { Message, Icon } from 'semantic-ui-react';
 
-export default (Error = props => {
+const Error = props => {
   return (
     <div>
       <Message negative>
-        <p>Invalid</p>
+        <p>
+          <Icon name="warning circle" />
+          {props.error}
+        </p>
       </Message>
     </div>
   );
-});
+};
+
+export default Error;

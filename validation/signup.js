@@ -6,10 +6,14 @@ const validateSignupInput = data => {
   const errors = {};
   const { name, email, password } = data;
 
-  if (!validator.isLength(name, { min: 5, max: 30 })) {
+  if (_.isEmpty(name)) {
+    errors.name = 'Name field is required';
+  } else if (!validator.isLength(name, { min: 5, max: 30 })) {
     errors.name = 'Name must be between 5 and 30 characters';
   }
-  if (!validator.isEmail(email)) {
+  if (_.isEmpty(email)) {
+    errors.email = 'Email address is required';
+  } else if (!validator.isEmail(email)) {
     errors.email = 'Email address is not valid';
   }
   if (_.isEmpty(password)) {

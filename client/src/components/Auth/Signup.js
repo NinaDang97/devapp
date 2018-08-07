@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
 import { Button, Form } from 'semantic-ui-react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
 
 import Navbar from '../Navbar';
 import Error from '../Error';
+import { signUpUser } from '../../action';
 
-export default class Signup extends Component {
+class Signup extends Component {
   state = {
     errors: {}
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors });
+    }
+  }
 
   handleChange = e => {
     this.setState({
@@ -18,6 +27,8 @@ export default class Signup extends Component {
   };
 
   handleSubmit = e => {
+    e.preventDefault();
+
     const { name, email, password } = this.state;
     const newUser = {
       name,
@@ -25,13 +36,12 @@ export default class Signup extends Component {
       password
     };
 
-    axios
-      .post('/api/users/signup', newUser)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err.response.data));
+    this.props.signUpUser(newUser, this.props.history);
   };
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div>
         <Navbar />
@@ -52,7 +62,7 @@ export default class Signup extends Component {
                 onChange={this.handleChange}
                 placeholder="Name"
               />
-              {/* {Object.values(this.state.errors).length > 0 && <Error />} */}
+              {errors.name ? <Error error={errors.name} /> : null}
             </Form.Field>
             <Form.Field>
               <label>Email</label>
@@ -62,6 +72,7 @@ export default class Signup extends Component {
                 onChange={this.handleChange}
                 placeholder="Email"
               />
+              {errors.email ? <Error error={errors.email} /> : null}
             </Form.Field>
             <Form.Field>
               <label>Password</label>
@@ -71,6 +82,7 @@ export default class Signup extends Component {
                 onChange={this.handleChange}
                 placeholder="Password"
               />
+              {errors.password ? <Error error={errors.password} /> : null}
             </Form.Field>
 
             <Button type="submit" onClick={this.handleSubmit}>
@@ -82,3 +94,19 @@ export default class Signup extends Component {
     );
   }
 }
+
+Signup.propTypes = {
+  signUpUser: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    errors: state.error
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { signUpUser }
+)(Signup);
