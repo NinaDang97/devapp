@@ -30,6 +30,10 @@ img {
   margin: 50px auto;
 }
 
+.form.form-profile {
+  width: 80%;
+}
+
 .form .header {
   text-align: center;
 }

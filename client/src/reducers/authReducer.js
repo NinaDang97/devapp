@@ -1,4 +1,4 @@
-import * as Types from '../action';
+import { SET_CURRENT_USER } from '../action';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 
 const authReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case Types.SET_CURRENT_USER:
+    case SET_CURRENT_USER:
       return {
         ...state,
         isAuthenticated: !_.isEmpty(action.payload),

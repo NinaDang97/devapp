@@ -7,7 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { setAuthToken } from './utils/setAuthToken';
-import { setCurrentUser } from './action';
+import { setCurrentUser, logOutUser } from './action';
 
 import rootReducer from './reducers';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -34,6 +34,15 @@ if (headerToken) {
   const decoded = jwtDecode(headerToken);
   //Set user and isAuthenticated
   storeWithMiddleware.dispatch(setCurrentUser(decoded));
+
+  //Automatically Logout
+  const currentTime = Date.now() / 1000;
+  if (decoded.exp < currentTime) {
+    //Logout
+    storeWithMiddleware.dispatch(logOutUser());
+    //Redirect to /login
+    window.location.href = '/login';
+  }
 }
 
 ReactDOM.render(

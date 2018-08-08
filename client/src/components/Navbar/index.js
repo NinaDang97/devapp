@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Image, Header } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import { Link } from 'react-router-dom';
@@ -15,7 +15,7 @@ class Navbar extends Component {
 
   render() {
     const { activeItem } = this.state;
-    const { isAuthenticated, currentUser } = this.props.loggedInUser;
+    const { isAuthenticated, currentUser } = this.props.currentUser;
 
     const NonAuthNav = (
       <Menu.Menu position="right">
@@ -38,6 +38,23 @@ class Navbar extends Component {
 
     const AuthNav = (
       <Menu.Menu position="right">
+        <Menu.Item
+          as={Link}
+          to="/dashboard"
+          name="User"
+          active={activeItem === 'User'}
+        >
+          <Header as="h3">
+            <Image
+              src={currentUser.avatar}
+              circular
+              size="mini"
+              title={currentUser.name}
+              alt={currentUser.name}
+            />
+            {currentUser.name}
+          </Header>
+        </Menu.Item>
         <Menu.Item
           as={Link}
           to="/"
@@ -75,12 +92,12 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   logOutUser: PropTypes.func.isRequired,
-  loggedInUser: PropTypes.object.isRequired
+  currentUser: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    loggedInUser: state.auth
+    currentUser: state.auth
   };
 };
 

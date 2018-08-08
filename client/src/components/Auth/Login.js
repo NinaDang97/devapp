@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Input } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -13,6 +13,12 @@ class Login extends Component {
   state = {
     errors: {}
   };
+
+  componentDidMount() {
+    if (this.props.currentUser.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.errors !== this.props.errors) {
@@ -52,7 +58,7 @@ class Login extends Component {
           <Form>
             <Form.Field>
               <label>Email</label>
-              <input
+              <Input
                 type="text"
                 name="email"
                 onChange={this.handleChange}
@@ -62,7 +68,7 @@ class Login extends Component {
             </Form.Field>
             <Form.Field>
               <label>Password</label>
-              <input
+              <Input
                 type="password"
                 name="password"
                 onChange={this.handleChange}
@@ -83,12 +89,14 @@ class Login extends Component {
 
 Login.propTypes = {
   logInUser: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    errors: state.error
+    errors: state.error,
+    currentUser: state.auth
   };
 };
 

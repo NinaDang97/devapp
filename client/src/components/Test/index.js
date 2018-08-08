@@ -7,7 +7,7 @@ export default class Test extends Component {
     return (
       <div>
         <Navbar />
-        <h1>Test</h1>
+        <h1>Test Page</h1>
       </div>
     );
   }
