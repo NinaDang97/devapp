@@ -20,3 +20,5 @@
 * `'/api/profile/experience/:exp_id' - DELETE` - Delete experience from current user's profile
 * `'/api/profile/education/:edu_id' - DELETE` - Delete education from current user's profile
 
+#### Post API
+
