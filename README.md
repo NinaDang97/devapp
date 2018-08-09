@@ -11,7 +11,7 @@
 #### Profile API
 * `'/api/profile' - GET` - Get current user's profile
 * `'/api/profile' - POST` - Create/Edit profile
-* `'/api/profile' - DELETE` - Delete current user's profile
+* `'/api/profile' - DELETE` - Delete current user's profile and account
 * `'/api/profile/all' - GET` - Get all profile
 * `'/api/profile/handle/:handle' - GET` - Get profile by handle
 * `'/api/profile/user/:user_id' - GET` - Get profile by _id
