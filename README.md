@@ -20,3 +20,10 @@
 
 #### Post API
 
+* `'/api/posts' - GET`- Get all posts
+* `'/api/posts' - POST`- Create new post
+* `'/api/posts/:post_id' - GET` - Get specific post
+* `'/api/posts/like/:post_id' - POST`- Like post
+* `'/api/posts/unlike/:post_id' - POST`-Unlike post
+* `'/api/posts/comment/:post_id' - POST`- Add comment to post
+* `'/api/posts/comment/:post_id/:comment_id' - DELETE`- Delete comment
