@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Divider, Segment } from 'semantic-ui-react';
+import { Button, Divider, Segment, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-import { getCurrentProfile } from '../../action';
+import { getCurrentProfile, deleteAccount } from '../../action';
 import { connect } from 'react-redux';
 
-import Navbar from '../Navbar';
 import Loader from '../Loading';
+import ProfileActions from './ProfileActions';
+import Experience from './Experience';
+import Education from './Education';
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -25,13 +27,15 @@ class Dashboard extends Component {
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
           <div>
-            <h3>TODO: display profile</h3>;
+            <ProfileActions handle={profile.handle} />
+            <Experience {...profile} />
+            <Education {...profile} />
           </div>
         );
       } else {
         dashboardContent = (
           <Segment>
-            <Link to="/createprofile">
+            <Link to="/create-profile">
               <Button floated="left" primary>
                 Create Profile
               </Button>
@@ -45,9 +49,14 @@ class Dashboard extends Component {
     }
     return (
       <div>
-        <Navbar />
-        <h1>Dashboard</h1>
+        <Header className="myHeader" as="h1" icon>
+          Dashboard
+        </Header>
         {dashboardContent}
+
+        <Button onClick={this.props.deleteAccount} inverted color="red">
+          Delete Account
+        </Button>
       </div>
     );
   }
@@ -56,7 +65,8 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   currentUser: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired
+  getCurrentProfile: PropTypes.func.isRequired,
+  deleteAccount: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -68,5 +78,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteAccount }
 )(Dashboard);

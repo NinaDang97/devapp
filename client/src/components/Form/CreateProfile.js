@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Header, Button, Form, Select, Input } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
 import Navbar from '../Navbar';
+import Error from '../Error';
 import * as data from '../../data';
+import { createProfile } from '../../action';
 
 class CreateProfile extends Component {
   state = {
-    handleSocialInputs: false,
     errors: {}
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors });
+    }
+  }
 
   handleChange = (e, data) => {
     this.setState({
@@ -20,8 +27,30 @@ class CreateProfile extends Component {
     });
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+
+    const newProfile = {
+      handle: this.state.handle,
+      company: this.state.company,
+      website: this.state.website,
+      location: this.state.location,
+      status: this.state.status,
+      skills: this.state.skills,
+      github_username: this.state.github_username,
+      bio: this.state.bio,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram
+    };
+
+    this.props.createProfile(newProfile, this.props.history);
+  };
+
   render() {
-    console.log(this.state);
+    const { errors } = this.state;
     return (
       <div>
         <Navbar />
@@ -46,7 +75,7 @@ class CreateProfile extends Component {
                 onChange={this.handleChange}
                 placeholder="Handle"
               />
-              {/* {errors.name ? <Error error={errors.name} /> : null} */}
+              {errors.handle ? <Error error={errors.handle} /> : null}
             </Form.Field>
             <Form.Field>
               <label>Company</label>
@@ -83,6 +112,7 @@ class CreateProfile extends Component {
                 options={data.statusOptions}
                 onChange={this.handleChange}
               />
+              {errors.status ? <Error error={errors.status} /> : null}
             </Form.Field>
             <Form.Field>
               <label>Skills*</label>
@@ -92,7 +122,7 @@ class CreateProfile extends Component {
                 onChange={this.handleChange}
                 placeholder="Skills"
               />
-              {/* {errors.name ? <Error error={errors.name} /> : null} */}
+              {errors.skills ? <Error error={errors.skills} /> : null}
             </Form.Field>
             <Form.Field>
               <label>Bio</label>
@@ -122,6 +152,7 @@ class CreateProfile extends Component {
                 onChange={this.handleChange}
                 placeholder="LinkedIn URL"
               />
+              {errors.linkedin ? <Error error={errors.linkedin} /> : null}
               <Input
                 icon="facebook f"
                 iconPosition="left"
@@ -130,6 +161,7 @@ class CreateProfile extends Component {
                 onChange={this.handleChange}
                 placeholder="Facebook URL"
               />
+              {errors.facebook ? <Error error={errors.facebook} /> : null}
               <Input
                 icon="twitter"
                 iconPosition="left"
@@ -138,6 +170,7 @@ class CreateProfile extends Component {
                 onChange={this.handleChange}
                 placeholder="Twitter URL"
               />
+              {errors.twitter ? <Error error={errors.twitter} /> : null}
               <Input
                 icon="instagram"
                 iconPosition="left"
@@ -146,6 +179,7 @@ class CreateProfile extends Component {
                 onChange={this.handleChange}
                 placeholder="Instagram URL"
               />
+              {errors.instagram ? <Error error={errors.instagram} /> : null}
               <Input
                 icon="youtube"
                 iconPosition="left"
@@ -154,10 +188,11 @@ class CreateProfile extends Component {
                 onChange={this.handleChange}
                 placeholder="Youtube URL"
               />
+              {errors.youtube ? <Error error={errors.youtube} /> : null}
             </Form.Field>
 
             <Button type="submit" onClick={this.handleSubmit}>
-              Submit
+              Create
             </Button>
           </Form>
         </div>
@@ -167,20 +202,17 @@ class CreateProfile extends Component {
 }
 
 CreateProfile.propTypes = {
-  currentUser: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
-  error: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  createProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.auth,
-    profile: state.profile,
-    error: state.error
+    errors: state.error
   };
 };
 
 export default connect(
   mapStateToProps,
-  null
+  { createProfile }
 )(CreateProfile);

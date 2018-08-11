@@ -59,3 +59,35 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+h3.ui.header:last-child {
+  margin-bottom: -13px;
+}
+
+div.ui.padded.segment {
+  padding-top: 3em;
+}
+
+button.ui.inverted.red.button {
+  margin: 25px;
+}
+
+table.ui.blue.table, 
+table.ui.green.table {
+  margin: 25px 0;
+}
+
+.developer-list {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.developer-list .developer-item {
+  flex-basis: 20%;
+}
+
+.myHeader {
+  width: 100%;
+  margin: 0 auto;
+}

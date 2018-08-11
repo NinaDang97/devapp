@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import Navbar from '../Navbar';
 import Error from '../Error';
 import { signUpUser } from '../../action';
 
@@ -48,53 +47,49 @@ class Signup extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
-        <Navbar />
+      <div className="form">
+        <Header as="h2" className="header">
+          Sign Up Form
+          <Header.Subheader>
+            Create your own account to get interacted with other members.
+          </Header.Subheader>
+        </Header>
+        <Form>
+          <Form.Field>
+            <label>Name</label>
+            <Input
+              type="text"
+              name="name"
+              onChange={this.handleChange}
+              placeholder="Name"
+            />
+            {errors.name ? <Error error={errors.name} /> : null}
+          </Form.Field>
+          <Form.Field>
+            <label>Email</label>
+            <Input
+              type="text"
+              name="email"
+              onChange={this.handleChange}
+              placeholder="Email"
+            />
+            {errors.email ? <Error error={errors.email} /> : null}
+          </Form.Field>
+          <Form.Field>
+            <label>Password</label>
+            <Input
+              type="password"
+              name="password"
+              onChange={this.handleChange}
+              placeholder="Password"
+            />
+            {errors.password ? <Error error={errors.password} /> : null}
+          </Form.Field>
 
-        <div className="form">
-          <Header as="h2" className="header">
-            Sign Up Form
-            <Header.Subheader>
-              Create your own account to get interacted with other members.
-            </Header.Subheader>
-          </Header>
-          <Form>
-            <Form.Field>
-              <label>Name</label>
-              <Input
-                type="text"
-                name="name"
-                onChange={this.handleChange}
-                placeholder="Name"
-              />
-              {errors.name ? <Error error={errors.name} /> : null}
-            </Form.Field>
-            <Form.Field>
-              <label>Email</label>
-              <Input
-                type="text"
-                name="email"
-                onChange={this.handleChange}
-                placeholder="Email"
-              />
-              {errors.email ? <Error error={errors.email} /> : null}
-            </Form.Field>
-            <Form.Field>
-              <label>Password</label>
-              <Input
-                type="password"
-                name="password"
-                onChange={this.handleChange}
-                placeholder="Password"
-              />
-              {errors.password ? <Error error={errors.password} /> : null}
-            </Form.Field>
-
-            <Button type="submit" onClick={this.handleSubmit}>
-              Submit
-            </Button>
-          </Form>
-        </div>
+          <Button type="submit" onClick={this.handleSubmit}>
+            Submit
+          </Button>
+        </Form>
       </div>
     );
   }

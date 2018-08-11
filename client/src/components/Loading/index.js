@@ -1,12 +1,14 @@
 import React from 'react';
-import { Dimmer, Loader, Segment } from 'semantic-ui-react';
+import { Message, Icon } from 'semantic-ui-react';
 
 const Loading = () => (
-  <Segment>
-    <Dimmer active inverted>
-      <Loader size="massive">Loading</Loader>
-    </Dimmer>
-  </Segment>
+  <Message icon>
+    <Icon name="circle notched" loading />
+    <Message.Content>
+      <Message.Header>Just one second</Message.Header>
+      We are fetching that content for you.
+    </Message.Content>
+  </Message>
 );
 
 export default Loading;

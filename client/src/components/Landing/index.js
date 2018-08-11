@@ -5,8 +5,6 @@ import { Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Navbar from '../Navbar';
-
 class Landing extends Component {
   componentDidMount() {
     if (this.props.currentUser.isAuthenticated) {
@@ -17,7 +15,6 @@ class Landing extends Component {
   render() {
     return (
       <div className="landing">
-        <Navbar />
         <div className="intro">
           <Link to="/signup">
             <Button inverted color="grey">

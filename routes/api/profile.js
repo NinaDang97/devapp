@@ -43,7 +43,7 @@ router.get('/', middlware.isLoggedIn, (req, res) => {
 router.get('/all', (req, res) => {
   const errors = {};
   Profile.find({})
-    .populate('author', ['name', 'avatar'])
+    .populate('author', ['name', 'avatar', 'date'])
     .then(allProfiles => {
       if (!allProfiles) {
         errors.no_profile = profileError.no_profiles;

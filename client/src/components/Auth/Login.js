@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logInUser } from '../../action';
 
-import Navbar from '../Navbar';
 import Error from '../Error';
 
 class Login extends Component {
@@ -48,40 +47,36 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
-        <Navbar />
+      <div className="form">
+        <Header as="h2" className="header">
+          Log In Form
+        </Header>
+        <Form>
+          <Form.Field>
+            <label>Email</label>
+            <Input
+              type="text"
+              name="email"
+              onChange={this.handleChange}
+              placeholder="Email"
+            />
+            {errors.email ? <Error error={errors.email} /> : null}
+          </Form.Field>
+          <Form.Field>
+            <label>Password</label>
+            <Input
+              type="password"
+              name="password"
+              onChange={this.handleChange}
+              placeholder="Password"
+            />
+            {errors.password ? <Error error={errors.password} /> : null}
+          </Form.Field>
 
-        <div className="form">
-          <Header as="h2" className="header">
-            Log In Form
-          </Header>
-          <Form>
-            <Form.Field>
-              <label>Email</label>
-              <Input
-                type="text"
-                name="email"
-                onChange={this.handleChange}
-                placeholder="Email"
-              />
-              {errors.email ? <Error error={errors.email} /> : null}
-            </Form.Field>
-            <Form.Field>
-              <label>Password</label>
-              <Input
-                type="password"
-                name="password"
-                onChange={this.handleChange}
-                placeholder="Password"
-              />
-              {errors.password ? <Error error={errors.password} /> : null}
-            </Form.Field>
-
-            <Button type="submit" onClick={this.handleSubmit}>
-              Go!
-            </Button>
-          </Form>
-        </div>
+          <Button type="submit" onClick={this.handleSubmit}>
+            Go!
+          </Button>
+        </Form>
       </div>
     );
   }
