@@ -1,9 +1,10 @@
 import {
   CREATE_POST,
   GET_ALL_POSTS,
+  GET_POST,
   DELETE_POST,
   POST_LOADING,
-  ADD_LIKE
+  SET_LIKE
 } from '../action';
 
 const INITIAL_STATE = {
@@ -24,7 +25,14 @@ const postReducer = (state = INITIAL_STATE, action) => {
     case GET_ALL_POSTS:
       return {
         ...state,
+        post: {},
         allPosts: action.payload,
+        loading: false
+      };
+    case GET_POST:
+      return {
+        ...state,
+        post: action.payload,
         loading: false
       };
     case DELETE_POST:
@@ -37,7 +45,7 @@ const postReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: true
       };
-    case ADD_LIKE:
+    case SET_LIKE:
       return {
         ...state,
         allPosts: state.allPosts.map(post => {

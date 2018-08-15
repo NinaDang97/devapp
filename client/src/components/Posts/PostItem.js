@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { Feed, Icon, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 
-import { deletePost, addLike } from '../../action';
+import { deletePost, addLike, unLike } from '../../action';
 
 class PostItem extends Component {
-  componentDidMount() {
-    this.handleColorLikes();
-  }
-
   handleLikes = _id => {
-    this.props.addLike(_id);
+    let foundIndex = this.handleColorLikes();
+    foundIndex !== 1 ? this.props.addLike(_id) : this.props.unLike(_id);
   };
 
   handleColorLikes = () => {
+    let index = -1;
     this.props.likes.forEach(like => {
       if (like.author === this.props.user.currentUser._id) {
-        ReactDOM.findDOMNode(this.refs.likedBtn).style.color = 'red';
+        index = 1;
       }
     });
+    return index;
   };
 
   render() {
@@ -43,7 +42,7 @@ class PostItem extends Component {
             <Feed.Like>
               <Icon
                 name="like"
-                ref="likedBtn"
+                color={this.handleColorLikes() === 1 ? 'red' : 'grey'}
                 onClick={() => this.handleLikes(_id)}
               />
               {likes.length}{' '}
@@ -74,7 +73,8 @@ class PostItem extends Component {
 PostItem.propTypes = {
   user: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
-  addLike: PropTypes.func.isRequired
+  addLike: PropTypes.func.isRequired,
+  unLike: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -85,5 +85,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { deletePost, addLike }
+  { deletePost, addLike, unLike }
 )(PostItem);

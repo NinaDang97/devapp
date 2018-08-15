@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Segment, Form, Button } from 'semantic-ui-react';
+import { Segment, Form, Button, Header } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 import { createPost } from '../../action';
@@ -9,7 +9,8 @@ import Error from '../Error';
 
 class CreatePost extends Component {
   state = {
-    errors: {}
+    errors: {},
+    text: ''
   };
 
   componentDidUpdate(prevProps) {
@@ -35,6 +36,7 @@ class CreatePost extends Component {
       avatar: currentUser.avatar
     };
     this.props.createPost(newPost);
+    this.setState({ text: '' });
   };
 
   render() {
@@ -42,6 +44,9 @@ class CreatePost extends Component {
     return (
       <Segment inverted>
         <Form inverted>
+          <Header color="teal" as="h2">
+            Post questions on our group
+          </Header>
           <Form.TextArea
             name="text"
             autoHeight

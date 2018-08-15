@@ -25,7 +25,7 @@ export const GET_POST = 'GET_POST';
 export const CREATE_POST = 'CREATE_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const POST_LOADING = 'POST_LOADING';
-export const ADD_LIKE = 'ADD_LIKE';
+export const SET_LIKE = 'SET_LIKE';
 
 /////////////////////////////////////
 ////////// AUTH ACTIONS /////////////
@@ -268,6 +268,18 @@ export const getAllPosts = () => dispatch => {
     );
 };
 
+export const getPost = postId => dispatch => {
+  axios
+    .get(`/api/posts/${postId}`)
+    .then(res => dispatch({ type: GET_POST, payload: res.data }))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 export const deletePost = postId => dispatch => {
   axios
     .delete(`/api/posts/${postId}`)
@@ -290,7 +302,41 @@ export const addLike = postId => dispatch => {
     .post(`/api/posts/like/${postId}`)
     .then(res =>
       dispatch({
-        type: ADD_LIKE,
+        type: SET_LIKE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const unLike = postId => dispatch => {
+  axios
+    .post(`/api/posts/unlike/${postId}`)
+    .then(res =>
+      dispatch({
+        type: SET_LIKE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const createComment = (postId, newComment) => dispatch => {
+  axios
+    .post(`/api/posts/comment/${postId}`, newComment)
+    .then(res =>
+      dispatch({
+        type: GET_POST,
         payload: res.data
       })
     )
