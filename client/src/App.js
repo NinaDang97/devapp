@@ -16,6 +16,7 @@ import CreateProfile from './components/Form/CreateProfile';
 import EditProfile from './components/Form/EditProfile';
 import AddExperience from './components/Form/AddExperience';
 import AddEducation from './components/Form/AddEducation';
+import Posts from './components/Posts';
 
 class App extends Component {
   render() {
@@ -42,6 +43,7 @@ class App extends Component {
             component={AddExperience}
           />
           <PrivateRoute exact path="/add-education" component={AddEducation} />
+          <PrivateRoute exact path="/feed" component={Posts} />
         </Switch>
       </div>
     );

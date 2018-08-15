@@ -57,6 +57,12 @@ class Navbar extends Component {
         </Menu.Item>
         <Menu.Item
           as={Link}
+          to="/feed"
+          name="Post Feed"
+          active={activeItem === 'Post Feed'}
+        />
+        <Menu.Item
+          as={Link}
           to="/"
           name="Log Out"
           active={activeItem === 'Log Out'}

@@ -14,13 +14,22 @@ export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const GET_ALL_PROFILES = 'GET_ALL_PROFILES';
 export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_LOADING = 'PROFILE_LOADING';
-export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
 export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE'; //logout => profile cleared
 export const CREATE_PROFILE = 'CREATE_PROFILE';
 export const DELETE_EXP = 'DELETE_EXP';
 export const DELETE_EDU = 'DELETE_EDU';
 
+////////// POST TYPES /////////////
+export const GET_ALL_POSTS = 'GET_ALL_POSTS';
+export const GET_POST = 'GET_POST';
+export const CREATE_POST = 'CREATE_POST';
+export const DELETE_POST = 'DELETE_POST';
+export const POST_LOADING = 'POST_LOADING';
+export const ADD_LIKE = 'ADD_LIKE';
+
+/////////////////////////////////////
 ////////// AUTH ACTIONS /////////////
+/////////////////////////////////////
 export const signUpUser = (newUser, history) => dispatch => {
   axios
     .post('/api/users/signup', newUser)
@@ -82,7 +91,9 @@ export const logOutUser = () => dispatch => {
   dispatch(clearCurrentProfile());
 };
 
+/////////////////////////////////////
 ////////// PROFILE ACTIONS /////////////
+/////////////////////////////////////
 export const getAllProfiles = () => dispatch => {
   dispatch(setProfileLoading());
 
@@ -221,4 +232,78 @@ export const deleteEdu = edu_id => dispatch => {
       .then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
       .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
   }
+};
+
+/////////////////////////////////////
+////////// POST ACTIONS /////////////
+/////////////////////////////////////
+export const createPost = newPost => dispatch => {
+  axios
+    .post('/api/posts', newPost)
+    .then(res =>
+      dispatch({
+        type: CREATE_POST,
+        payload: res.data
+      })
+    )
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+export const getAllPosts = () => dispatch => {
+  dispatch(setPostLoading());
+
+  axios
+    .get('/api/posts')
+    .then(res =>
+      dispatch({
+        type: GET_ALL_POSTS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const deletePost = postId => dispatch => {
+  axios
+    .delete(`/api/posts/${postId}`)
+    .then(res =>
+      dispatch({
+        type: DELETE_POST,
+        payload: postId
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const addLike = postId => dispatch => {
+  axios
+    .post(`/api/posts/like/${postId}`)
+    .then(res =>
+      dispatch({
+        type: ADD_LIKE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const setPostLoading = () => {
+  return {
+    type: POST_LOADING
+  };
 };

@@ -23,11 +23,11 @@ class ProfileGithub extends Component {
           this.setState({ repos: data });
         }
       })
-      .catch(err => console.log('ERROR FETCHING Khanh! ', err));
+      .catch(err => console.log('ERROR FETCHING! ', err));
 
     // axios
     //   .get(urlRequest)
-    //   .then(res => console.log(res))
+    //   .then(res => console.log(res.data))
     //   .catch(err => console.log('ERROR FETCHING Khanh! ', err));
   }
 
