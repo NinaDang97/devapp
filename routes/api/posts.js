@@ -1,23 +1,23 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const middleware = require('../../middleware');
+const middleware = require("../../middleware");
 
-const Post = require('../../models/Post');
-const User = require('../../models/User');
+const Post = require("../../models/Post");
+const User = require("../../models/User");
 
-const validatePostInput = require('../../validation/post');
-const postError = require('../../error/post');
+const validatePostInput = require("../../validation/post");
+const postError = require("../../error/post");
 
-router.get('/test', (req, res) => {
+router.get("/test", (req, res) => {
   res.json({
-    msg: 'Posts works'
+    msg: "Posts works"
   });
 });
 
 // @route   GET api/posts
 // @desc    Get all posts
 // @access  public
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   const errors = {};
 
   Post.find({})
@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
 // @route   GET api/posts/:post_id
 // @desc    Get specific post
 // @access  public
-router.get('/:post_id', (req, res) => {
+router.get("/:post_id", (req, res) => {
   const errors = {};
 
   const { post_id } = req.params;
@@ -54,7 +54,7 @@ router.get('/:post_id', (req, res) => {
 // @route   POST api/posts
 // @desc    Create user's post
 // @access  private
-router.post('/', middleware.isLoggedIn, (req, res) => {
+router.post("/", middleware.isLoggedIn, (req, res) => {
   const { errors, isValid } = validatePostInput(req.body);
 
   if (!isValid) {
@@ -74,7 +74,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 // @route   DELETE api/posts/:post_id
 // @desc    Delete user's specific post
 // @access  private
-router.delete('/:post_id', middleware.isLoggedIn, (req, res) => {
+router.delete("/:post_id", middleware.isLoggedIn, (req, res) => {
   const errors = {};
 
   const { post_id } = req.params; //string type
@@ -102,7 +102,7 @@ router.delete('/:post_id', middleware.isLoggedIn, (req, res) => {
 // @route   POST api/posts/like/:post_id
 // @desc    Like any post
 // @access  private (need to be logged in)
-router.post('/like/:post_id', middleware.isLoggedIn, (req, res) => {
+router.post("/like/:post_id", middleware.isLoggedIn, (req, res) => {
   const errors = {};
 
   const { post_id } = req.params;
@@ -123,7 +123,7 @@ router.post('/like/:post_id', middleware.isLoggedIn, (req, res) => {
 // @route   POST api/posts/unlike/:post_id
 // @desc    Unlike any liked post
 // @access  private (need to be logged in)
-router.post('/unlike/:post_id', middleware.isLoggedIn, (req, res) => {
+router.post("/unlike/:post_id", middleware.isLoggedIn, (req, res) => {
   const errors = {};
 
   const { post_id } = req.params;
@@ -147,7 +147,7 @@ router.post('/unlike/:post_id', middleware.isLoggedIn, (req, res) => {
 // @route   POST api/posts/comment/:post_id
 // @desc    Add comment to post
 // @access  private
-router.post('/comment/:post_id', middleware.isLoggedIn, (req, res) => {
+router.post("/comment/:post_id", middleware.isLoggedIn, (req, res) => {
   const { errors, isValid } = validatePostInput(req.body);
   if (!isValid) {
     return res.status(400).json(errors);
@@ -175,7 +175,7 @@ router.post('/comment/:post_id', middleware.isLoggedIn, (req, res) => {
 // @desc    Delete comment to post
 // @access  private
 router.delete(
-  '/comment/:post_id/:comment_id',
+  "/comment/:post_id/:comment_id",
   middleware.isLoggedIn,
   (req, res) => {
     const errors = {};

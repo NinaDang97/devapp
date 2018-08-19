@@ -5,7 +5,7 @@ import {
   DELETE_POST,
   POST_LOADING,
   SET_LIKE
-} from '../action';
+} from "../action";
 
 const INITIAL_STATE = {
   allPosts: [],

@@ -1,44 +1,44 @@
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
-import { setAuthToken } from '../utils/setAuthToken';
+import { setAuthToken } from "../utils/setAuthToken";
 
 ////////// ERROR TYPE /////////////
-export const GET_ERRORS = 'GET_ERRORS';
+export const GET_ERRORS = "GET_ERRORS";
 
 ////////// AUTH TYPES /////////////
-export const SIGN_UP = 'SIGN_UP';
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SIGN_UP = "SIGN_UP";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
 ////////// PROFILE TYPES /////////////
-export const GET_ALL_PROFILES = 'GET_ALL_PROFILES';
-export const GET_PROFILE = 'GET_PROFILE';
-export const PROFILE_LOADING = 'PROFILE_LOADING';
-export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE'; //logout => profile cleared
-export const CREATE_PROFILE = 'CREATE_PROFILE';
-export const DELETE_EXP = 'DELETE_EXP';
-export const DELETE_EDU = 'DELETE_EDU';
+export const GET_ALL_PROFILES = "GET_ALL_PROFILES";
+export const GET_PROFILE = "GET_PROFILE";
+export const PROFILE_LOADING = "PROFILE_LOADING";
+export const CLEAR_CURRENT_PROFILE = "CLEAR_CURRENT_PROFILE"; //logout => profile cleared
+export const CREATE_PROFILE = "CREATE_PROFILE";
+export const DELETE_EXP = "DELETE_EXP";
+export const DELETE_EDU = "DELETE_EDU";
 
 ////////// POST TYPES /////////////
-export const GET_ALL_POSTS = 'GET_ALL_POSTS';
-export const GET_POST = 'GET_POST';
-export const CREATE_POST = 'CREATE_POST';
-export const DELETE_POST = 'DELETE_POST';
-export const POST_LOADING = 'POST_LOADING';
-export const SET_LIKE = 'SET_LIKE';
+export const GET_ALL_POSTS = "GET_ALL_POSTS";
+export const GET_POST = "GET_POST";
+export const CREATE_POST = "CREATE_POST";
+export const DELETE_POST = "DELETE_POST";
+export const POST_LOADING = "POST_LOADING";
+export const SET_LIKE = "SET_LIKE";
 
 /////////////////////////////////////
 ////////// AUTH ACTIONS /////////////
 /////////////////////////////////////
 export const signUpUser = (newUser, history) => dispatch => {
   axios
-    .post('/api/users/signup', newUser)
+    .post("/api/users/signup", newUser)
     .then(res => {
       dispatch({
         type: SIGN_UP,
         payload: res.data
       });
-      history.push('/login');
+      history.push("/login");
     })
     .catch(err =>
       dispatch({
@@ -51,18 +51,18 @@ export const signUpUser = (newUser, history) => dispatch => {
 //Login - get user's token
 export const logInUser = (user, history) => dispatch => {
   axios
-    .post('/api/users/login', user)
+    .post("/api/users/login", user)
     .then(res => {
       //1) Save TOKEN to LOCAL STORAGE
       const { token } = res.data;
-      localStorage.setItem('jwtToken', token);
+      localStorage.setItem("jwtToken", token);
       //2) Set token to auth header
       setAuthToken(token);
       //Decode token to get user data
       const decoded = jwtDecode(token);
       //3) Set current user
       dispatch(setCurrentUser(decoded));
-      history.push('/dashboard');
+      history.push("/dashboard");
     })
     .catch(err =>
       dispatch({
@@ -82,7 +82,7 @@ export const setCurrentUser = decoded => dispatch => {
 
 //Log user out
 export const logOutUser = () => dispatch => {
-  localStorage.removeItem('jwtToken');
+  localStorage.removeItem("jwtToken");
   //Remove auth header for future request
   setAuthToken(false);
   //Set current user to {} and isAuthenticated: false
@@ -98,7 +98,7 @@ export const getAllProfiles = () => dispatch => {
   dispatch(setProfileLoading());
 
   axios
-    .get('/api/profile/all')
+    .get("/api/profile/all")
     .then(res => {
       dispatch({
         type: GET_ALL_PROFILES,
@@ -126,7 +126,7 @@ export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
 
   axios
-    .get('/api/profile')
+    .get("/api/profile")
     .then(res => {
       dispatch({
         type: GET_PROFILE,
@@ -144,8 +144,8 @@ export const getCurrentProfile = () => dispatch => {
 //Create Profile
 export const createProfile = (newProfile, history) => dispatch => {
   axios
-    .post('/api/profile', newProfile)
-    .then(res => history.push('/dashboard'))
+    .post("/api/profile", newProfile)
+    .then(res => history.push("/dashboard"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -156,9 +156,9 @@ export const createProfile = (newProfile, history) => dispatch => {
 
 //Delete current user's profile and account
 export const deleteAccount = () => dispatch => {
-  if (window.confirm('Are you sure? This can NOT be undone!')) {
+  if (window.confirm("Are you sure? This can NOT be undone!")) {
     axios
-      .delete('/api/profile')
+      .delete("/api/profile")
       .then(res =>
         dispatch({
           type: SET_CURRENT_USER,
@@ -191,8 +191,8 @@ export const clearCurrentProfile = () => dispatch => {
 //Add Experience
 export const addExperience = (newExp, history) => dispatch => {
   axios
-    .post('/api/profile/experience', newExp)
-    .then(res => history.push('/dashboard'))
+    .post("/api/profile/experience", newExp)
+    .then(res => history.push("/dashboard"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -204,8 +204,8 @@ export const addExperience = (newExp, history) => dispatch => {
 //Add Education
 export const addEducation = (newEdu, history) => dispatch => {
   axios
-    .post('/api/profile/education', newEdu)
-    .then(res => history.push('/dashboard'))
+    .post("/api/profile/education", newEdu)
+    .then(res => history.push("/dashboard"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -216,7 +216,7 @@ export const addEducation = (newEdu, history) => dispatch => {
 
 //Delete Experience
 export const deleteExp = exp_id => dispatch => {
-  if (window.confirm('Are you sure to delete this?')) {
+  if (window.confirm("Are you sure to delete this?")) {
     axios
       .delete(`/api/profile/experience/${exp_id}`)
       .then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
@@ -226,7 +226,7 @@ export const deleteExp = exp_id => dispatch => {
 
 //Delete Education
 export const deleteEdu = edu_id => dispatch => {
-  if (window.confirm('Are you sure to delete this?')) {
+  if (window.confirm("Are you sure to delete this?")) {
     axios
       .delete(`/api/profile/education/${edu_id}`)
       .then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
@@ -239,7 +239,7 @@ export const deleteEdu = edu_id => dispatch => {
 /////////////////////////////////////
 export const createPost = newPost => dispatch => {
   axios
-    .post('/api/posts', newPost)
+    .post("/api/posts", newPost)
     .then(res =>
       dispatch({
         type: CREATE_POST,
@@ -253,7 +253,7 @@ export const getAllPosts = () => dispatch => {
   dispatch(setPostLoading());
 
   axios
-    .get('/api/posts')
+    .get("/api/posts")
     .then(res =>
       dispatch({
         type: GET_ALL_POSTS,
@@ -340,6 +340,25 @@ export const createComment = (postId, newComment) => dispatch => {
         payload: res.data
       })
     )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const deleteComment = (postId, commentId) => dispatch => {
+  axios
+    .delete(`/api/posts/comment/${postId}/${commentId}`)
+    .then(() => {
+      axios.get(`/api/posts/${postId}`).then(res =>
+        dispatch({
+          type: GET_POST,
+          payload: res.data
+        })
+      );
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

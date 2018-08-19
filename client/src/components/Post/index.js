@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Container, Item } from 'semantic-ui-react';
-import moment from 'moment';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Container, Item, Button } from "semantic-ui-react";
+import moment from "moment";
 
-import { connect } from 'react-redux';
-import { getPost } from '../../action';
+import { connect } from "react-redux";
+import { getPost, deleteComment } from "../../action";
 
-import Loading from '../Loading';
-import CreateComment from '../Form/CreateComment';
+import Loading from "../Loading";
+import CreateComment from "../Form/CreateComment";
 
 class Post extends Component {
   componentDidMount() {
@@ -16,6 +16,8 @@ class Post extends Component {
 
   render() {
     const { post, loading } = this.props.post;
+    const { currentUser } = this.props.user;
+    const { postId } = this.props.match.params;
     let postContent;
 
     if (post === null || Object.keys(post).length === 0 || loading) {
@@ -31,7 +33,7 @@ class Post extends Component {
               <Item.Extra>{moment(post.date).fromNow()}</Item.Extra>
             </Item.Content>
           </Item>
-          <CreateComment postId={this.props.match.params.postId} />
+          <CreateComment postId={postId} />
 
           {post.comments.map((comment, i) => (
             <Item key={i}>
@@ -41,6 +43,13 @@ class Post extends Component {
                 <Item.Description>{comment.text}</Item.Description>
                 <Item.Extra>{moment(comment.date).fromNow()}</Item.Extra>
               </Item.Content>
+              {currentUser._id === comment.author ? (
+                <Button
+                  basic
+                  icon="delete"
+                  onClick={() => this.props.deleteComment(postId, comment._id)}
+                />
+              ) : null}
             </Item>
           ))}
         </Item.Group>
@@ -58,16 +67,19 @@ class Post extends Component {
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
-  getPost: PropTypes.func.isRequired
+  user: PropTypes.object.isRequired,
+  getPost: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    post: state.post
+    post: state.post,
+    user: state.auth
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getPost }
+  { getPost, deleteComment }
 )(Post);
