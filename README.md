@@ -28,3 +28,5 @@
 * `'/api/posts/unlike/:post_id' - POST`-Unlike post
 * `'/api/posts/comment/:post_id' - POST`- Add comment to post
 * `'/api/posts/comment/:post_id/:comment_id' - DELETE`- Delete comment
+
+##### Inspired by MERN Stack Front To Back: Full Stack React, Redux & Node.js - Brad Traversy
