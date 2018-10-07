@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 import Error from '../Error';
 import * as data from '../../data';
-import { createProfile, getCurrentProfile } from '../../action';
+import { createProfile, getCurrentProfile } from '../../action/profileAction';
 
 class EditProfile extends Component {
   state = {

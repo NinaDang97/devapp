@@ -14,11 +14,11 @@ const db = require("./config/keys.js").mongoURI;
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {
-  //Set static folder
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
+	//Set static folder
+	app.use(express.static("client/build"));
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	});
 }
 
 //bodyParser config
@@ -30,12 +30,12 @@ app.use(cors());
 
 //connect mlab
 mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log("Errors in connect mongo, ", err));
+	.connect(
+		db,
+		{ useNewUrlParser: true }
+	)
+	.then(() => console.log("MongoDB connected"))
+	.catch(err => console.log("Errors in connect mongo, ", err));
 
 //Passport Middleware Initialize
 app.use(passport.initialize());
@@ -48,8 +48,8 @@ app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5050;
 
 app.listen(port, () => {
-  console.log(`SERVER RUNNING ON PORT ${port}`);
+	console.log(`SERVER RUNNING ON PORT ${port}`);
 });
